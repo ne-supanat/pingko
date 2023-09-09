@@ -34,6 +34,7 @@ class StartButton extends StatelessWidget {
                   color: Colors.white,
                   size: 64,
                 ),
+                iconSize: 64,
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.white.withOpacity(0.5),
                 ),
