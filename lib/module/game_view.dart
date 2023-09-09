@@ -4,14 +4,14 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
-import 'package:pingko/module/start_button.dart';
-import 'package:pingko/module/win_dialog.dart';
 
 import '../global/constant.dart';
 import '../module/ball.dart';
 import '../module/pin.dart';
 import '../module/prize_box.dart';
 import '../module/wall.dart';
+import 'start_button.dart';
+import 'win_dialog.dart';
 
 class GameView extends StatelessWidget {
   GameView({super.key});
@@ -21,6 +21,11 @@ class GameView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GameWidget(
+      backgroundBuilder: (context) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.orange,
+        ),
+      ),
       game: _game,
       overlayBuilderMap: {
         startButtonKeyName: (_, game) => StartButton(game: game as GameComponent),
@@ -58,7 +63,7 @@ class GameComponent extends Forge2DGame {
     final components = <Component>[];
 
     components.addAll(createBoundaries(boardSize: boardSize));
-    components.addAll(createPins(boardSize: boardSize));
+    // components.addAll(createPins(boardSize: boardSize));
     components.addAll(createPrizeBoxs(boardSize: boardSize));
 
     return components;
@@ -85,7 +90,7 @@ class GameComponent extends Forge2DGame {
     final pins = <Component>[];
     for (int row = 0; row < rowSize; row++) {
       for (int column = 0; column <= columnSize; column++) {
-        if ((row + column) % 2 == 0) {
+        if ((row + column) % 2 == 1) {
           pins.add(
             Pin(
               size: boardSize.x / 80,
@@ -108,8 +113,9 @@ class GameComponent extends Forge2DGame {
 
     final boxHeight = boardSize.y * 0.005;
 
-    final boxWidths = [0.3, 0.15, 0.15, 0.25, 0.15];
-    final onContactFunctions = [onWin1, onWin2, onWin3, onWin4, onWin5];
+    final boxWidths = [0.2, 0.125, 0.15, 0.1, 0.3, 0.125];
+    final prizes = ['😭', '😆', '🙂', '😃', '🥲', '😎'];
+    final prizePreviews = ['T^T', 'XD', ':)', ':D', '; v ;', 'B)'];
 
     double cursor = 0;
 
@@ -125,10 +131,24 @@ class GameComponent extends Forge2DGame {
         onContactBall: () {
           playing = false;
           paused = true;
-          onContactFunctions[i]();
+          prizeName = prizes[i];
           overlays.add(winDialogKeyName);
         },
       ));
+
+      boxes.add(
+        TextComponent(
+          text: prizePreviews[i],
+          textRenderer: TextPaint(
+              style: const TextStyle(
+            color: Colors.white,
+            fontSize: 2,
+          )),
+          size: Vector2.zero(),
+          position: Vector2(cursor + width / 2, boardSize.y - 3),
+          anchor: Anchor.center,
+        ),
+      );
 
       cursor += width;
     }
@@ -138,36 +158,6 @@ class GameComponent extends Forge2DGame {
 
   createPrizeWall(x, y) {
     return Wall(Vector2(x, y), Vector2(x, y * 0.9));
-  }
-
-  onWin1() {
-    final text = 'win1 -> show reward & restart';
-    print(text);
-    prizeName = text;
-  }
-
-  onWin2() {
-    final text = 'win2 -> show reward & restart';
-    print(text);
-    prizeName = text;
-  }
-
-  onWin3() {
-    final text = 'win3 -> show reward & restart';
-    print(text);
-    prizeName = text;
-  }
-
-  onWin4() {
-    final text = 'win4 -> show reward & restart';
-    print(text);
-    prizeName = text;
-  }
-
-  onWin5() {
-    final text = 'win5 -> show reward & restart';
-    print(text);
-    prizeName = text;
   }
 
   spawnBall() {

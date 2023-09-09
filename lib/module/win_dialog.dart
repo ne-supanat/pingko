@@ -9,15 +9,12 @@ class WinDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const blackTextColor = Color.fromRGBO(0, 0, 0, 1.0);
-    const whiteTextColor = Color.fromRGBO(255, 255, 255, 1.0);
-
     return Material(
       color: Colors.transparent,
       child: Center(
         child: Container(
           padding: const EdgeInsets.all(48.0),
-          width: 300,
+          width: 500,
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.5),
             borderRadius: const BorderRadius.all(
@@ -29,10 +26,10 @@ class WinDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Win ${game.prizeName}',
+                game.prizeName,
                 style: const TextStyle(
-                  color: whiteTextColor,
-                  fontSize: 24,
+                  color: Colors.white,
+                  fontSize: 72,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -45,13 +42,13 @@ class WinDialog extends StatelessWidget {
                     game.overlays.remove(winDialogKeyName);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: whiteTextColor,
+                    backgroundColor: Colors.white,
                   ),
                   child: const Text(
                     'Close',
                     style: TextStyle(
                       fontSize: 28.0,
-                      color: blackTextColor,
+                      color: Colors.black,
                     ),
                   ),
                 ),
