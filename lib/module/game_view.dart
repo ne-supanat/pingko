@@ -49,7 +49,8 @@ class GameComponent extends Forge2DGame {
 
   @override
   Future<void> onLoad() async {
-    boardSize = Vector2(size.x / 2, size.y * 0.9);
+    final minSize = size.x < size.y ? size.x : size.y;
+    boardSize = Vector2(minSize * 0.75, minSize * 0.9);
     board = PositionComponent(
       position: size / 2,
       size: boardSize,
@@ -63,7 +64,7 @@ class GameComponent extends Forge2DGame {
     final components = <Component>[];
 
     components.addAll(createBoundaries(boardSize: boardSize));
-    // components.addAll(createPins(boardSize: boardSize));
+    components.addAll(createPins(boardSize: boardSize));
     components.addAll(createPrizeBoxs(boardSize: boardSize));
 
     return components;

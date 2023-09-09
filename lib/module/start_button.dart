@@ -19,9 +19,9 @@ class StartButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              width: 200,
-              height: 75,
-              child: ElevatedButton(
+              width: 100,
+              height: 100,
+              child: IconButton(
                 onPressed: () {
                   if (!game.playing) {
                     game.playing = true;
@@ -29,15 +29,13 @@ class StartButton extends StatelessWidget {
                     game.paused = false;
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                icon: const Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 64,
                 ),
-                child: Text(
-                  game.prizeName.isEmpty ? 'Play' : 'Play again',
-                  style: const TextStyle(
-                    fontSize: 28.0,
-                    color: Colors.black,
-                  ),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white.withOpacity(0.5),
                 ),
               ),
             ),
